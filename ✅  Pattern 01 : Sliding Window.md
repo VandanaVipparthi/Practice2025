@@ -115,5 +115,28 @@ public int minSubArrayLen(int target, int[] nums) {
     }
 ````
 This algorithm will find all the sum of k contiguous arrays and then find the max. 
-Time Complexity: O(N*K)
+Time Complexity: O(N^2)
+Space Complexity: O(1)
+
+<b> Optimized Approach </b>
+In this approach we iterate and calculate the sum, if sum > =target then we will change our window size by increasing the left pointer untill the sum>target and parallelly calculate the length of subarray.
+````java
+public int minSubArrayLen(int target, int[] nums) {
+        int n=nums.length;
+        int l=0,r=0;
+        int sum=0;
+        int ans=Integer.MAX_VALUE;
+        while(r<n){
+            sum+=nums[r];
+            while(l<n && sum>=target){
+                ans = Math.min(ans,r-l+1);
+                sum -= nums[l];
+                l++;
+            }
+            r++;
+        }
+        return ans == Integer.MAX_VALUE ? 0 : ans;
+    }
+````
+Time Complexity: O(N)
 Space Complexity: O(1)
