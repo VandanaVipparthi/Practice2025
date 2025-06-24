@@ -79,3 +79,129 @@ public int removeElement(int[] nums, int val) {
 ````
 Time Complexity: O(n)
 Space Complexity: O(1)
+### 4. Squaring a Sorted Array (easy)
+https://leetcode.com/problems/squares-of-a-sorted-array/
+```
+Since the original array is not sorted, it's not guaranteed that the largest elements (in terms of absolute value) are at the ends of the array.
+By iterating backwards from the end of the array, we can start populating the result array from the end, ensuring that the squares of larger elements occupy the higher indices of the result array.
+```
+````java
+public int[] sortedSquares(int[] nums) {
+        int[] res = new int[nums.length];
+        int l=0,r=nums.length-1;
+        for(int i=nums.length-1;i>=0;i--){
+            if(Math.abs(nums[l])>Math.abs(nums[r])){
+                res[i]=nums[l]*nums[l];
+                l++;
+            }
+            else{
+                res[i]=nums[r]*nums[r];
+                r--;
+            }
+        }
+        return res;
+    }
+````
+Time Complexity: O(n)
+Space Complexity: O(n)
+
+### 5. Triplet Sum to Zero (medium)
+https://leetcode.com/problems/3sum/description/
+```
+Sort the array to handle duplicates easily and apply the two-pointer method. Loop through the array using index i (fixing one number).
+For each i, use two pointers:left = i + 1, right = n - 1, to find pairs such that nums[i] + nums[left] + nums[right] == 0.
+Skip duplicates for i, left, and right while moving pointers. Add valid triplets to the result list.
+```
+````java
+public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int j = i + 1, k = nums.length - 1;
+
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+
+                if (sum < 0) j++;
+                else if (sum > 0) k--;
+                else {
+                    res.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    j++; k--;
+
+                    while (j < k && nums[j] == nums[j - 1]) j++;
+                }
+            }
+        }
+
+        return res;
+    }
+````
+Time Complexity: O(n2)
+Space Complexity: O(1) (excluding output list)
+
+### 6. 3Sum Closest
+https://leetcode.com/problems/3sum-closest/description/
+````
+Sort the input array to simplify pointer movements. Loop over the array with index i, fixing one number. Use two pointers left and right to try all combinations with nums[i]. For every triplet, calculate the absolute difference from the target. If the current sum is closer, update the result. Move pointers inward depending on how current_sum compares to target.
+````
+````java
+public int threeSumClosest(int[] nums, int target) {
+        int minDiff =Integer.MAX_VALUE;
+        Arrays.sort(nums);
+        int sum=0,diff=0,s=0,m=0,e=0;
+        int n=nums.length;
+        for(int i=0;i<n;i++){
+            int j=i+1, k=n-1;
+            while(k>j){
+                sum = nums[i]+nums[j]+nums[k];
+                diff=Math.abs(sum-target);
+                
+                if(diff<minDiff){
+                    minDiff=Math.abs(Math.abs(sum)-Math.abs(target));
+                    s=i;
+                    m=j;
+                    e=k;
+                }
+                if(sum<target){
+                    j++;
+                }
+                else{
+                    k--;
+                }
+            }
+        }
+        return nums[s]+nums[m]+nums[e];
+    }
+````
+Time Complexity:( O(n²) ) — outer loop + two-pointer scan
+Space Complexity:( O(1) ) — constant space
+
+### 7. Triplets with Smaller Sum (medium)
+https://www.geeksforgeeks.org/problems/count-triplets-with-sum-smaller-than-x5549/1
+Similar to above approach
+````java
+long countTriplets(int n, int sum1, long arr[]) {
+        long ans=0,sum=0;
+        Arrays.sort(arr);
+        for(int i=0;i<n-1;i++){
+            int j=i+1,k=n-1;
+            while(j<k){
+                sum= arr[i]+arr[j]+arr[k];
+                if(sum<sum1){
+                    ans+=k-j;
+                    j++;
+                }else{
+                    k--;
+                }
+            }
+        }
+        return ans;
+    }
+````
+Time Complexity:( O(n²) ) — outer loop + two-pointer scan
+Space Complexity:( O(1) ) — constant space
+### 8. Subarrays with Product Less than a Target (medium)
+https://leetcode.com/problems/subarray-product-less-than-k/description/
