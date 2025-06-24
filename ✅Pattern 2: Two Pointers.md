@@ -205,3 +205,58 @@ Time Complexity:( O(n²) ) — outer loop + two-pointer scan
 Space Complexity:( O(1) ) — constant space
 ### 8. Subarrays with Product Less than a Target (medium)
 https://leetcode.com/problems/subarray-product-less-than-k/description/
+```
+Start with a product of 1 and two pointers: left and right. Multiply product by nums[right]. If product >= k, move left forward to shrink the window. Count subarrays ending at right using window length: right - left + 1.
+```
+```java
+public int numSubarrayProductLessThanK(int[] nums, int k) {
+        if(k<=0){
+            return 0;
+        }
+        int count=0,left=0,product=1;
+        for(int right=0;right<nums.length;right++){
+            product*=nums[right];
+            while(product>=k){
+                product/=nums[left];
+                left++;
+            }
+            count+=right-left+1;
+        }
+        return count;
+}
+````
+Time Complexity: O(n)
+Space Complexity: O(1) 
+### 9.Dutch National Flag Problem (medium)
+````
+The dutch national flag algorithm involves sorting the nums array by partitioning it into 3 segments.
+nums[0]...nums[low - 1] : This part should consist of all zeroes.
+nums[low]...nums[mid - 1] : This part should consist of all ones.
+nums[mid]...nums[end of array] : This part should consist of all twos.
+````
+````java
+public void sortColors(int[] nums) {
+        int l=0,m=0;
+        int r=nums.length-1;
+        while(m<=r){
+            if(nums[m]==0){
+                int temp=nums[l];
+                nums[l]=nums[m];
+                nums[m]=temp;
+                l++;
+                m++;
+            }
+            else if(nums[m]==2){
+                int temp=nums[r];
+                nums[r]=nums[m];
+                nums[m]=temp;
+                r--;
+            }else{
+                m++;
+            }
+        }
+    }
+````
+Time Complexity: O(n)
+Space Complexity: O(1)
+### 10. Quadruple Sum to Target (medium)
