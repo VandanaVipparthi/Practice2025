@@ -260,3 +260,125 @@ public void sortColors(int[] nums) {
 Time Complexity: O(n)
 Space Complexity: O(1)
 ### 10. Quadruple Sum to Target (medium)
+https://leetcode.com/problems/4sum/
+````java
+public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        int n= nums.length;
+        long sum=0;
+        for(int i=0;i<n;i++){
+            if(i>0 && nums[i]==nums[i-1]){
+                continue;
+            }
+            for(int j=i+1;j<n;j++){
+                if(j!=i+1 && nums[j]==nums[j-1]){
+                    continue;
+                }
+            int k=j+1;
+            int l=n-1;
+            while(k<l){
+                sum=nums[i]+nums[j];
+                sum+=nums[k]+nums[l];
+                if(target==sum){
+                    System.out.println(sum);
+                    ans.add(Arrays.asList(nums[i],nums[j],nums[k],nums[l]));
+                    k++;l--;
+                    while(k<l && nums[k]==nums[k-1]){k++;}
+                    while(k<l && nums[l]==nums[l+1]){l--;}
+                }else if(sum<target){
+                        k++;
+                    }else{
+                        l--;
+                    }
+
+            }
+            }
+        }
+    return ans;
+````
+Time complexity:O(n^3)
+Space complexity:O(k) for unique quadruplets.
+### 11. Comparing Strings containing Backspaces (medium)
+https://leetcode.com/problems/backspace-string-compare/description/
+```
+Processing the String: To emulate the "typing" and "erasing" action, we navigate through each string with two pointers. The main pointer (i) traverses each character, while the auxiliary pointer (k for s and p for t) indicates the effective position of the last character post backspaces.
+
+If the character at the main pointer isn't #, it's "typed" at the location of the auxiliary pointer, which is then incremented.
+If the character is #, the preceding character is "erased" by decrementing the auxiliary pointer.
+The concluding value of the auxiliary pointer after processing gives the effective string length after considering backspaces.
+Comparing the Strings: After processing, the effective lengths (final values of k and p) are compared. A difference in lengths directly implies the strings aren't equal. If the lengths align, a character-by-character comparison is performed up to their effective lengths.
+```
+```java
+public int processString(char[] c){
+        int k=0;
+        for(char i:c){
+            if(i!='#'){
+                c[k]=i;
+                k++;
+            }
+            else{
+                if(k>0){
+                    k--;
+                }
+            }
+        }
+        return k;
+    }
+    public boolean backspaceCompare(String s, String t) {
+        char[] s1= s.toCharArray();
+        char[] t1= t.toCharArray();
+        int k1=processString(s1);
+        int k2=processString(t1);
+        if(k1!=k2){
+            return false;
+        }
+        for(int i=0;i<k1;i++){
+            if(s1[i]!=t1[i]){
+                return false;
+            }
+        }
+        return true;
+
+    }
+```
+Time Complexity: O(n)
+Space Complexity: O(1) 
+### 12. Shortest Subarray to be Removed to Make Array Sorted
+````java
+public int findLengthOfShortestSubarray(int[] arr) {
+        int n = arr.length;
+        
+        // Step 1: Find the longest non-decreasing prefix
+        int left = 0;
+        while (left + 1 < n && arr[left] <= arr[left + 1]) {
+            left++;
+        }
+        
+        // If the entire array is already sorted
+        if (left == n - 1) return 0;
+        
+        // Step 2: Find the longest non-decreasing suffix
+        int right = n - 1;
+        while (right > 0 && arr[right - 1] <= arr[right]) {
+            right--;
+        }
+        // Step 3: Find the minimum length to remove by comparing prefix and suffix
+        int result = Math.min(n - left - 1, right);
+        // Step 4: Use two pointers to find the smallest middle part to remove
+        int i = 0, j = right;
+        while (i <= left && j < n) {
+            if (arr[i] <= arr[j]) {
+                result = Math.min(result, j - i - 1);
+                i++;
+            } else {
+                j++;
+            }
+        }
+        
+        return result;
+
+    }
+````
+The time complexity of the above algorithm will be O(N).
+The algorithm runs in constant space O(1).
