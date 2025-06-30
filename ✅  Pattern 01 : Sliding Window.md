@@ -264,7 +264,7 @@ Time Complexity: O(N)
 Space Complexity: O(1)
 
 ### 7. No-repeat Substring
-https://www.naukri.com/code360/problems/longest-substring-with-at-most-two-distinct-characters_3125863?leftPanelTabValue=PROBLEM
+https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 
 <b> Optimized Approach </b>
 ````java
