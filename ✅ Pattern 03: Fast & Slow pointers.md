@@ -167,3 +167,78 @@ class Solution {
 ````
 ###Rearrange a LinkedList (medium)
 https://leetcode.com/problems/reorder-list/
+````java
+public void reorderList(ListNode head) {
+         if (head == null) return;
+        ListNode slow=head;
+        ListNode fast=head;
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        ListNode p=null;
+        ListNode temp=null;
+    ListNode s = slow.next;
+        slow.next = null;
+        while(s!=null){
+            temp=s.next;
+            s.next=p;
+            p=s;
+            s=temp;
+        }
+        fast=head;
+        ListNode prev=p;
+        while(prev!=null){
+            ListNode temp1=fast.next, temp2=prev.next;
+            fast.next=prev;
+            prev.next=temp1;
+            fast=temp1;
+            prev=temp2;
+        }
+````
+### Circular Array Loop
+https://leetcode.com/problems/circular-array-loop/description/
+````java
+class Solution {
+    public int findNextIndex(int index,int[] nums,int cd){
+        int n= (index+nums[index])% nums.length;
+        System.out.println(n);
+        if(n<0){
+            n+=nums.length;
+        }
+        int d=nums[n]>0?1:-1;
+        if(cd!=d || index==n){
+            return -1;
+        }
+        return n;
+    }
+    public boolean circularArrayLoop(int[] nums) {
+        HashSet<Integer> s=new HashSet<>();
+        for(int i=0;i<nums.length;i++){
+            if(s.contains(i)){
+                continue;
+            }
+            int sp=i;
+            int fp=i;
+            int cd = nums[i] >0 ? 1 :-1;
+            while(true){
+            s.add(sp);
+            s.add(fp);
+            sp=findNextIndex(sp,nums,cd);
+            fp=findNextIndex(fp,nums,cd);
+            if(sp==-1 || fp==-1){
+                break; 
+            }
+            fp=findNextIndex(fp,nums,cd);
+            if(fp==-1){
+                break; 
+            }
+            if(sp==fp){
+                return true;
+            }
+        }
+        }
+        return false;
+    }
+}
+````
