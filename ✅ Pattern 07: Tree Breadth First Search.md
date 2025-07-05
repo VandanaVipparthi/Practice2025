@@ -250,3 +250,31 @@ public Node connect(Node root) {
         return root;
     }
 ```
+### Right View of a Binary Tree (easy)
+https://leetcode.com/problems/binary-tree-right-side-view/
+```java
+public List<Integer> rightSideView(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        List<Integer> sublist = new ArrayList<>();
+        if(root==null){
+            return sublist;
+        }
+        queue.offer(root);        
+        while(!queue.isEmpty()){
+            int level = queue.size(); 
+            for(int i=0;i<level;i++){
+                TreeNode node = queue.poll();
+                if(node.left!=null){
+                    queue.offer(node.left);
+                }
+                if(node.right!=null){
+                    queue.offer(node.right);
+                }
+                if(i==level-1){
+                sublist.add(node.val);
+                }
+            }
+        }
+        return sublist;
+    }
+```
