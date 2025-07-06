@@ -175,10 +175,60 @@ class Solution {
 ### Structurally Unique Binary Search Trees (hard)
 https://leetcode.com/problems/unique-binary-search-trees-ii/
 ```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<TreeNode> generateTrees(int n) {
+        return bst(1,n);
+    }
 
+    private List<TreeNode> bst(int s, int e){
+        List<TreeNode> ans = new ArrayList<>();
+        if(s>e){
+            ans.add(null);
+            return ans;
+        }
+        for(int i = s;i <= e;i++){
+            List<TreeNode> left = bst(s, i-1);
+            List<TreeNode> right = bst(i+1, e);
+
+            for(TreeNode l : left){
+                for(TreeNode r : right){
+                    TreeNode res = new TreeNode(i,l,r);
+                    ans.add(res);
+                }
+            }
+        }
+        return ans;
+    }
+}
 ```
 ### Count of Structurally Unique Binary Search Trees (hard)
 https://leetcode.com/problems/unique-binary-search-trees/
 ```java
-
+class Solution {
+    public int numTrees(int n) {
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+        int sum = 0;
+        for (int i = 1; i <= n; ++i) {
+            sum += numTrees(i - 1) * numTrees(n - i);
+        }
+        return sum;
+    }
+}
 ```
